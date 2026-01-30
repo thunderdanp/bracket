@@ -60,7 +60,7 @@ function ScheduleRow({
         : loseColor;
 
   return (
-    <UnstyledButton style={{ width: '48rem' }}>
+    <UnstyledButton style={{ width: '100%' }}>
       <Card
         shadow="sm"
         radius="md"
@@ -73,20 +73,20 @@ function ScheduleRow({
       >
         <Card.Section withBorder>
           <Grid pt="0.75rem" pb="0.5rem">
-            <Grid.Col mb="0rem" span={4}>
+            <Grid.Col mb="0rem" span={{ base: 6, xs: 4 }}>
               <Text pl="sm" mt="sm" fw={800}>
                 {data.match.court.name}
               </Text>
             </Grid.Col>
-            <Grid.Col mb="0rem" span={4}>
+            <Grid.Col mb="0rem" span={{ base: 6, xs: 4 }}>
               <Center>
                 <Text mt="sm" fw={800}>
                   {data.match.start_time != null ? <Time datetime={data.match.start_time} /> : null}
                 </Text>
               </Center>
             </Grid.Col>
-            <Grid.Col mb="0rem" span={4}>
-              <Flex justify="right" gap="xs">
+            <Grid.Col mb="0rem" span={{ base: 12, xs: 4 }}>
+              <Flex justify="right" gap="xs" wrap="wrap">
                 {data.match.official && (
                   <Badge color="cyan" variant="light" mt="0.8rem" size="md">
                     {data.match.official.name}
@@ -245,12 +245,10 @@ function Schedule({
     ) : null;
 
   return (
-    <Group wrap="nowrap" align="top">
-      <div style={{ width: '48rem' }}>
-        {rows}
-        {noItemsAlert}
-      </div>
-    </Group>
+    <div style={{ width: '100%' }}>
+      {rows}
+      {noItemsAlert}
+    </div>
   );
 }
 
@@ -296,13 +294,15 @@ export default function ResultsPage() {
       />
       <Title>{t('results_title')}</Title>
       <Center mt="1rem">
-        <Schedule
-          t={t}
-          matchesLookup={matchesLookup}
-          stageItemsLookup={stageItemsLookup}
-          openMatchModal={openMatchModal}
-          tournamentData={tournamentData}
-        />
+        <Group style={{ maxWidth: '48rem', width: '100%' }} px="md">
+          <Schedule
+            t={t}
+            matchesLookup={matchesLookup}
+            stageItemsLookup={stageItemsLookup}
+            openMatchModal={openMatchModal}
+            tournamentData={tournamentData}
+          />
+        </Group>
       </Center>
     </TournamentLayout>
   );

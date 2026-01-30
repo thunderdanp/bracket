@@ -47,19 +47,19 @@ function ScheduleRow({
     <Card shadow="sm" radius="md" withBorder mt="md" pt="0rem">
       <Card.Section withBorder>
         <Grid pt="0.75rem" pb="0.5rem">
-          <Grid.Col mb="0rem" span={4}>
+          <Grid.Col mb="0rem" span={{ base: 6, xs: 4 }}>
             <Text pl="sm" mt="sm" fw={800}>
               {data.match.court.name}
             </Text>
           </Grid.Col>
-          <Grid.Col mb="0rem" span={4}>
+          <Grid.Col mb="0rem" span={{ base: 6, xs: 4 }}>
             <Center>
               <Text mt="sm" fw={800}>
                 {data.match.start_time != null ? <Time datetime={data.match.start_time} /> : null}
               </Text>
             </Center>
           </Grid.Col>
-          <Grid.Col mb="0rem" span={4}>
+          <Grid.Col mb="0rem" span={{ base: 12, xs: 4 }}>
             <Flex justify="right">
               <Badge
                 color={stringToColour(`${data.stageItem.id}`)}
