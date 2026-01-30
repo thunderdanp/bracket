@@ -1495,6 +1495,10 @@ export type Tournament = {
    */
   dashboard_public: boolean;
   /**
+   * Dashboard Show Standings
+   */
+  dashboard_show_standings: boolean;
+  /**
    * Duration Minutes
    */
   duration_minutes: number;
@@ -1545,6 +1549,10 @@ export type TournamentBody = {
    * Dashboard Public
    */
   dashboard_public: boolean;
+  /**
+   * Dashboard Show Standings
+   */
+  dashboard_show_standings: boolean;
   /**
    * Duration Minutes
    */
@@ -1602,6 +1610,10 @@ export type TournamentUpdateBody = {
    * Dashboard Public
    */
   dashboard_public: boolean;
+  /**
+   * Dashboard Show Standings
+   */
+  dashboard_show_standings: boolean;
   /**
    * Duration Minutes
    */

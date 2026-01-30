@@ -10,7 +10,7 @@ from bracket.models.db.tournament import (
 from bracket.utils.id_types import TournamentId
 
 TOURNAMENT_COLUMNS = """id, name, created, start_time, club_id, dashboard_public,
-    logo_path, dashboard_endpoint, players_can_be_in_multiple_teams,
+    dashboard_show_standings, logo_path, dashboard_endpoint, players_can_be_in_multiple_teams,
     auto_assign_courts, duration_minutes, margin_minutes, status"""
 
 
@@ -79,6 +79,7 @@ async def sql_update_tournament(
             start_time = :start_time,
             name = :name,
             dashboard_public = :dashboard_public,
+            dashboard_show_standings = :dashboard_show_standings,
             dashboard_endpoint = :dashboard_endpoint,
             players_can_be_in_multiple_teams = :players_can_be_in_multiple_teams,
             auto_assign_courts = :auto_assign_courts,
@@ -116,6 +117,7 @@ async def sql_create_tournament(tournament: TournamentBody) -> TournamentId:
             start_time,
             club_id,
             dashboard_public,
+            dashboard_show_standings,
             dashboard_endpoint,
             logo_path,
             players_can_be_in_multiple_teams,
@@ -128,6 +130,7 @@ async def sql_create_tournament(tournament: TournamentBody) -> TournamentId:
             :start_time,
             :club_id,
             :dashboard_public,
+            :dashboard_show_standings,
             :dashboard_endpoint,
             :logo_path,
             :players_can_be_in_multiple_teams,

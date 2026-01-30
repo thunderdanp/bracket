@@ -2,6 +2,7 @@ import { Container, Text } from '@mantine/core';
 import { AiOutlineHourglass } from '@react-icons/all-files/ai/AiOutlineHourglass';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router';
 import { SWRResponse } from 'swr';
 
 import { DashboardFooter } from '@components/dashboard/footer';
@@ -71,6 +72,11 @@ export default function DashboardStandingsPage() {
 
   if (!tournamentValid) {
     return tournamentDataFull;
+  }
+
+  if (tournamentDataFull.dashboard_show_standings === false) {
+    const endpoint = tournamentDataFull.dashboard_endpoint || '';
+    return <Navigate to={`/tournaments/${endpoint}/dashboard`} replace />;
   }
 
   setTitle(getTournamentHeadTitle(tournamentDataFull));

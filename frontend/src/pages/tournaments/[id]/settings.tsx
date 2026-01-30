@@ -141,6 +141,7 @@ function GeneralTournamentForm({
       name: tournament.name,
       club_id: `${tournament.club_id}`,
       dashboard_public: tournament.dashboard_public,
+      dashboard_show_standings: tournament.dashboard_show_standings,
       dashboard_endpoint: tournament.dashboard_endpoint,
       players_can_be_in_multiple_teams: tournament.players_can_be_in_multiple_teams,
       auto_assign_courts: tournament.auto_assign_courts,
@@ -168,6 +169,7 @@ function GeneralTournamentForm({
           tournament.id,
           values.name,
           values.dashboard_public,
+          values.dashboard_show_standings,
           values.dashboard_endpoint,
           values.players_can_be_in_multiple_teams,
           values.auto_assign_courts,
@@ -270,6 +272,11 @@ function GeneralTournamentForm({
           mt="lg"
           label={t('dashboard_public_description')}
           {...form.getInputProps('dashboard_public', { type: 'checkbox' })}
+        />
+        <Checkbox
+          mt="md"
+          label={t('dashboard_show_standings_label')}
+          {...form.getInputProps('dashboard_show_standings', { type: 'checkbox' })}
         />
 
         <DropzoneButton

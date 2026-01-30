@@ -23,6 +23,7 @@ tournaments = Table(
     Column("start_time", DateTimeTZ, nullable=False),
     Column("club_id", BigInteger, ForeignKey("clubs.id"), index=True, nullable=False),
     Column("dashboard_public", Boolean, nullable=False),
+    Column("dashboard_show_standings", Boolean, nullable=False, server_default="t"),
     Column("logo_path", String, nullable=True),
     Column("logo_data", LargeBinary, nullable=True),
     Column("logo_content_type", String, nullable=True),

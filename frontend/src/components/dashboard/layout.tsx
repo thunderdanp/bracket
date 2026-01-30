@@ -85,7 +85,9 @@ export function DoubleHeader({ tournamentData }: { tournamentData: Tournament })
   const mainLinks = [
     { link: `/tournaments/${endpoint}/dashboard`, label: 'Matches' },
     { link: `/tournaments/${endpoint}/dashboard/bracket`, label: 'Bracket' },
-    { link: `/tournaments/${endpoint}/dashboard/standings`, label: 'Standings' },
+    ...(tournamentData.dashboard_show_standings !== false
+      ? [{ link: `/tournaments/${endpoint}/dashboard/standings`, label: 'Standings' }]
+      : []),
     { link: `/tournaments/${endpoint}/official-portal`, label: 'Officials' },
   ];
 
