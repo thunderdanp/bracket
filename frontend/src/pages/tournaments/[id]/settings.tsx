@@ -275,6 +275,8 @@ function GeneralTournamentForm({
               <QRCode
                 size={160}
                 level="L"
+                fgColor="#000000"
+                bgColor="#FFFFFF"
                 value={`${getBaseURL()}/tournaments/${tournament.dashboard_endpoint}/dashboard`}
               />
             </div>
