@@ -23,6 +23,7 @@ import { MdUnarchive } from '@react-icons/all-files/md/MdUnarchive';
 import { IconCalendar, IconCalendarTime, IconCopy, IconPencil, IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import QRCode from 'react-qr-code';
 import { MdArchive } from 'react-icons/md';
 import { useNavigate } from 'react-router';
 import { SWRResponse } from 'swr';
@@ -267,6 +268,17 @@ function GeneralTournamentForm({
             </CopyButton>
           </Grid.Col>
         </Grid>
+
+        {tournament.dashboard_endpoint !== '' && (
+          <Center mt="md">
+            <div style={{ background: 'white', padding: '16px', borderRadius: '8px' }}>
+              <QRCode
+                size={160}
+                value={`${getBaseURL()}/tournaments/${tournament.dashboard_endpoint}/dashboard`}
+              />
+            </div>
+          </Center>
+        )}
 
         <Checkbox
           mt="lg"
