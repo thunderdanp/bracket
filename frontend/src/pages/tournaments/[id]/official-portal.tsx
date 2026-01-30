@@ -75,6 +75,9 @@ function MatchScoreCard({
   const [score2, setScore2] = useState<number>(match.stage_item_input2_score);
   const [submitting, setSubmitting] = useState(false);
 
+  const scoreSubmitted =
+    match.stage_item_input1_score !== 0 || match.stage_item_input2_score !== 0;
+
   useEffect(() => {
     if (!submitting) {
       setScore1(match.stage_item_input1_score);
@@ -112,6 +115,7 @@ function MatchScoreCard({
             value={score1}
             onChange={(val) => setScore1(Number(val))}
             min={0}
+            disabled={scoreSubmitted}
           />
         </div>
         <div>
@@ -122,14 +126,23 @@ function MatchScoreCard({
             value={score2}
             onChange={(val) => setScore2(Number(val))}
             min={0}
+            disabled={scoreSubmitted}
           />
         </div>
       </SimpleGrid>
+
+      {scoreSubmitted && (
+        <Alert color="green" mb="md">
+          {t('score_already_submitted_message')}: {match.stage_item_input1_score} -{' '}
+          {match.stage_item_input2_score}
+        </Alert>
+      )}
 
       <Button
         fullWidth
         color="green"
         loading={submitting}
+        disabled={scoreSubmitted}
         onClick={async () => {
           setSubmitting(true);
           try {

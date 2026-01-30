@@ -208,6 +208,30 @@ function MatchModalForm({
         <Button fullWidth style={{ marginTop: 20 }} color="green" type="submit">
           {t('save_button')}
         </Button>
+        <Button
+          fullWidth
+          style={{ marginTop: 10 }}
+          color="orange"
+          variant="outline"
+          onClick={async () => {
+            const updatedMatch = {
+              id: match.id,
+              round_id: match.round_id,
+              stage_item_input1_score: 0,
+              stage_item_input2_score: 0,
+              court_id: match.court_id || null,
+              official_id: match.official_id || null,
+              custom_duration_minutes: match.custom_duration_minutes,
+              custom_margin_minutes: match.custom_margin_minutes,
+            };
+            await updateMatch(tournamentData.id, match.id, updatedMatch);
+            await swrStagesResponse.mutate();
+            if (swrUpcomingMatchesResponse != null) await swrUpcomingMatchesResponse.mutate();
+            setOpened(false);
+          }}
+        >
+          {t('reset_score_button')}
+        </Button>
       </form>
       {round && round.is_draft && (
         <MatchDeleteButton
