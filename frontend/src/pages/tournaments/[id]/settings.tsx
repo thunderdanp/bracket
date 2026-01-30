@@ -21,7 +21,7 @@ import { useForm } from '@mantine/form';
 import { MdDelete } from '@react-icons/all-files/md/MdDelete';
 import { MdUnarchive } from '@react-icons/all-files/md/MdUnarchive';
 import { IconCalendar, IconCalendarTime, IconCopy, IconPencil, IconTrash } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import QRCode from 'react-qr-code';
 import { MdArchive } from 'react-icons/md';
@@ -53,6 +53,47 @@ import {
   unarchiveTournament,
   updateTournament,
 } from '@services/tournament';
+
+function QRCodeImage({ value, size }: { value: string; size: number }) {
+  const svgRef = useRef<HTMLDivElement>(null);
+  const [dataUrl, setDataUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    setDataUrl(null);
+    const svg = svgRef.current?.querySelector('svg');
+    if (!svg) return;
+
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const padding = 16;
+    const total = size + padding * 2;
+    const canvas = document.createElement('canvas');
+    canvas.width = total;
+    canvas.height = total;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, total, total);
+
+    const img = new window.Image();
+    img.onload = () => {
+      ctx.drawImage(img, padding, padding, size, size);
+      setDataUrl(canvas.toDataURL('image/png'));
+    };
+    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+  }, [value, size]);
+
+  return (
+    <>
+      <div ref={svgRef} style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+        <QRCode size={size} level="L" fgColor="#000000" bgColor="#FFFFFF" value={value} />
+      </div>
+      {dataUrl && (
+        <img src={dataUrl} alt="Dashboard QR Code" style={{ borderRadius: '8px' }} />
+      )}
+    </>
+  );
+}
 
 export function TournamentLogo({ tournament }: { tournament: Tournament | null }) {
   const [hasError, setHasError] = useState(false);
@@ -271,15 +312,10 @@ function GeneralTournamentForm({
 
         {tournament.dashboard_endpoint !== '' && (
           <Center mt="md">
-            <div style={{ background: 'white', padding: '16px', borderRadius: '8px' }}>
-              <QRCode
-                size={160}
-                level="L"
-                fgColor="#000000"
-                bgColor="#FFFFFF"
-                value={`${getBaseURL()}/tournaments/${tournament.dashboard_endpoint}/dashboard`}
-              />
-            </div>
+            <QRCodeImage
+              size={160}
+              value={`${getBaseURL()}/tournaments/${tournament.dashboard_endpoint}/dashboard`}
+            />
           </Center>
         )}
 
