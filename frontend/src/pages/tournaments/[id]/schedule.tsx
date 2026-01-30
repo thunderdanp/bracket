@@ -21,6 +21,7 @@ import {
   IconClock,
   IconDots,
   IconTrash,
+  IconUserCheck,
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -48,6 +49,7 @@ import {
   stringToColour,
 } from '@services/lookups';
 import { clearSchedule, rescheduleMatch, scheduleMatches, updateMatch } from '@services/match';
+import { autoAssignOfficials } from '@services/official';
 
 function ScheduleRow({
   index,
@@ -351,6 +353,18 @@ export default function SchedulePage() {
       <Title>{t('planning_title')}</Title>
       {data.length >= 1 && (
         <Group justify="right" mb="md">
+          <Button
+            color="blue"
+            size="md"
+            variant="outline"
+            leftSection={<IconUserCheck size={24} />}
+            onClick={async () => {
+              await autoAssignOfficials(tournamentData.id);
+              await swrStagesResponse.mutate();
+            }}
+          >
+            {t('auto_assign_officials_button')}
+          </Button>
           <Button
             color="red"
             size="md"
