@@ -1,8 +1,10 @@
-import { Alert, Button, Card, Container, Group, NumberInput, SimpleGrid, Text, TextInput, Title } from '@mantine/core';
+import { Alert, Anchor, Button, Card, Container, Group, NumberInput, SimpleGrid, Text, TextInput, Title } from '@mantine/core';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 
+import PreloadLink from '@components/utils/link';
 import { getBaseApiUrl } from '@services/adapter';
 
 interface PortalMatch {
@@ -237,6 +239,8 @@ export default function OfficialPortalPage() {
     );
   }
 
+  const { id: endpoint } = useParams();
+
   return (
     <Container size="sm" mt="xl" px="md">
       <Group justify="space-between" mb="lg" wrap="wrap" gap="xs">
@@ -246,18 +250,23 @@ export default function OfficialPortalPage() {
             {t('logged_in_as_label')}: {officialInfo.name}
           </Text>
         </div>
-        <Button
-          variant="outline"
-          color="gray"
-          onClick={() => {
-            clearSession();
-            setOfficialInfo(null);
-            setMatches([]);
-            setAccessCode('');
-          }}
-        >
-          {t('logout_button')}
-        </Button>
+        <Group gap="xs">
+          <Anchor component={PreloadLink} href={`/tournaments/${endpoint}/dashboard`}>
+            {t('view_dashboard_button')}
+          </Anchor>
+          <Button
+            variant="outline"
+            color="gray"
+            onClick={() => {
+              clearSession();
+              setOfficialInfo(null);
+              setMatches([]);
+              setAccessCode('');
+            }}
+          >
+            {t('logout_button')}
+          </Button>
+        </Group>
       </Group>
 
       {matches.length === 0 ? (
