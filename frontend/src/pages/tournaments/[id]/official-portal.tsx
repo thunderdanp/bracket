@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Container, Group, NumberInput, Text, TextInput, Title } from '@mantine/core';
+import { Alert, Button, Card, Container, Group, NumberInput, SimpleGrid, Text, TextInput, Title } from '@mantine/core';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -101,7 +101,7 @@ function MatchScoreCard({
         </Text>
       )}
 
-      <Group grow mb="md">
+      <SimpleGrid cols={{ base: 1, xs: 2 }} mb="md">
         <div>
           <Text size="sm" fw={500} mb={4}>
             {match.team1_name ?? t('tbd_label')}
@@ -122,7 +122,7 @@ function MatchScoreCard({
             min={0}
           />
         </div>
-      </Group>
+      </SimpleGrid>
 
       <Button
         fullWidth
@@ -211,7 +211,7 @@ export default function OfficialPortalPage() {
 
   if (officialInfo == null) {
     return (
-      <Container size="xs" mt="xl">
+      <Container size="xs" mt="xl" px="md">
         <Title order={2} mb="lg">
           {t('official_portal_title')}
         </Title>
@@ -238,8 +238,8 @@ export default function OfficialPortalPage() {
   }
 
   return (
-    <Container size="sm" mt="xl">
-      <Group justify="space-between" mb="lg">
+    <Container size="sm" mt="xl" px="md">
+      <Group justify="space-between" mb="lg" wrap="wrap" gap="xs">
         <div>
           <Title order={2}>{t('official_portal_title')}</Title>
           <Text c="dimmed">
