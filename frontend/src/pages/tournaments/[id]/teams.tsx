@@ -64,10 +64,10 @@ export default function TeamsPage() {
   return (
     <TournamentLayout tournament_id={tournamentData.id}>
       <Grid justify="space-between" mb="1rem">
-        <Grid.Col span="auto">
+        <Grid.Col span={{ base: 12, sm: "auto" }}>
           <Title>{capitalize(t('teams_title'))}</Title>
         </Grid.Col>
-        <Grid.Col span="content">
+        <Grid.Col span={{ base: 12, sm: "content" }}>
           <Grid align="flex-end">
             <Grid.Col span="auto">
               <StageItemSelect

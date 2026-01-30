@@ -190,7 +190,7 @@ export default function TournamentModal({
 
   return (
     <>
-      <Modal opened={opened} onClose={() => setOpened(false)} title={operation_text} size="50rem">
+      <Modal opened={opened} onClose={() => setOpened(false)} title={operation_text} size="xl">
         <GeneralTournamentForm
           setOpened={setOpened}
           swrTournamentsResponse={swrTournamentsResponse}

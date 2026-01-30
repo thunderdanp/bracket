@@ -201,7 +201,7 @@ function ScheduleColumn({
     <Droppable droppableId={`${court.id}`} direction="vertical">
       {(provided) => (
         <div {...provided.droppableProps} ref={provided.innerRef}>
-          <div style={{ width: '25rem' }}>
+          <div style={{ minWidth: '20rem', flex: '1 1 20rem' }}>
             <Group justify="space-between">
               <Group>
                 <h4 style={{ marginTop: '0', margin: 'auto' }}>{court.name}</h4>
@@ -274,7 +274,7 @@ function Schedule({
   ));
 
   columns.push(
-    <div style={{ width: '25rem' }}>
+    <div style={{ minWidth: '20rem', flex: '1 1 20rem' }}>
       <CourtModal
         swrCourtsResponse={swrCourtsResponse}
         tournamentId={tournament.id}
@@ -296,7 +296,7 @@ function Schedule({
   }
 
   return (
-    <Group wrap="nowrap" align="top">
+    <Group wrap="wrap" align="top">
       {columns}
     </Group>
   );

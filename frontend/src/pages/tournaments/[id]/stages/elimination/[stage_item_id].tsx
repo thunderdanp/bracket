@@ -68,10 +68,10 @@ export default function EliminationBracketPage() {
   return (
     <TournamentLayout tournament_id={tournamentData.id}>
       <Grid grow>
-        <Grid.Col span={6}>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
           <Title>{stageItem != null ? stageItem.name : ''}</Title>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
           <Group justify="right">
             <SegmentedControl
               className={classes.fullWithMobile}
@@ -103,7 +103,7 @@ export default function EliminationBracketPage() {
           </Group>
         </Grid.Col>
       </Grid>
-      <div style={{ marginTop: '1rem', marginLeft: '1rem', marginRight: '1rem' }}>
+      <div style={{ marginTop: '1rem' }}>
         <RoundsGridCols
           tournamentData={tournamentDataFull}
           swrStagesResponse={swrStagesResponse}

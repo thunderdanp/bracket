@@ -285,7 +285,7 @@ function GeneralTournamentForm({
           variant="tournament"
         />
         <Center my="lg">
-          <div style={{ width: '50%' }}>
+          <div style={{ width: '50%', maxWidth: '300px' }}>
             <TournamentLogo tournament={tournament} />
           </div>
         </Center>
