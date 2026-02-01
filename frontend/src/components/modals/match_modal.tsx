@@ -9,7 +9,9 @@ import {
   Select,
   Text,
 } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SWRResponse } from 'swr';
@@ -18,7 +20,7 @@ import DeleteButton from '@components/buttons/delete';
 import { formatMatchInput1, formatMatchInput2 } from '@components/utils/match';
 import { TournamentMinimal } from '@components/utils/tournament';
 import { MatchWithDetails, RoundWithMatches, StagesWithStageItemsResponse } from '@openapi';
-import { getOfficials } from '@services/adapter';
+import { getCourts, getOfficials } from '@services/adapter';
 import { getMatchLookup, getStageItemLookup } from '@services/lookups';
 import { deleteMatch, updateMatch } from '@services/match';
 
@@ -75,6 +77,7 @@ function MatchModalForm({
       stage_item_input2_score: match.stage_item_input2_score,
       custom_duration_minutes: match.custom_duration_minutes,
       custom_margin_minutes: match.custom_margin_minutes,
+      start_time: match.start_time ? new Date(match.start_time) : null,
     },
 
     validate: {
@@ -96,9 +99,15 @@ function MatchModalForm({
   const [selectedOfficialId, setSelectedOfficialId] = useState<string | null>(
     match.official_id != null ? `${match.official_id}` : null
   );
+  const [selectedCourtId, setSelectedCourtId] = useState<string | null>(
+    match.court_id != null ? `${match.court_id}` : null
+  );
 
   const swrOfficialsResponse = getOfficials(tournamentData.id);
   const officials = swrOfficialsResponse.data?.data ?? [];
+
+  const swrCourtsResponse = getCourts(tournamentData.id);
+  const courts = swrCourtsResponse.data?.data ?? [];
 
   const stageItemsLookup = getStageItemLookup(swrStagesResponse);
   const matchesLookup = getMatchLookup(swrStagesResponse);
@@ -115,10 +124,13 @@ function MatchModalForm({
             round_id: match.round_id,
             stage_item_input1_score: values.stage_item_input1_score,
             stage_item_input2_score: values.stage_item_input2_score,
-            court_id: match.court_id || null,
+            court_id: selectedCourtId != null ? Number(selectedCourtId) : null,
             official_id: selectedOfficialId != null ? Number(selectedOfficialId) : null,
             custom_duration_minutes: customDurationEnabled ? values.custom_duration_minutes : null,
             custom_margin_minutes: customMarginEnabled ? values.custom_margin_minutes : null,
+            start_time: values.start_time
+              ? new Date(dayjs(values.start_time).valueOf()).toISOString()
+              : null,
           };
           await updateMatch(tournamentData.id, match.id, updatedMatch);
           await swrStagesResponse.mutate();
@@ -150,6 +162,25 @@ function MatchModalForm({
             clearable
           />
         )}
+
+        {courts.length > 0 && (
+          <Select
+            mt="lg"
+            label={t('court_label')}
+            placeholder={t('select_court_placeholder')}
+            data={courts.map((c) => ({ value: `${c.id}`, label: c.name }))}
+            value={selectedCourtId}
+            onChange={setSelectedCourtId}
+            clearable
+          />
+        )}
+
+        <DateTimePicker
+          mt="lg"
+          label={t('start_time_label')}
+          clearable
+          {...form.getInputProps('start_time')}
+        />
 
         <Divider mt="lg" />
 
@@ -219,10 +250,17 @@ function MatchModalForm({
               round_id: match.round_id,
               stage_item_input1_score: 0,
               stage_item_input2_score: 0,
-              court_id: match.court_id || null,
-              official_id: match.official_id || null,
-              custom_duration_minutes: match.custom_duration_minutes,
-              custom_margin_minutes: match.custom_margin_minutes,
+              court_id: selectedCourtId != null ? Number(selectedCourtId) : null,
+              official_id: selectedOfficialId != null ? Number(selectedOfficialId) : null,
+              custom_duration_minutes: customDurationEnabled
+                ? form.values.custom_duration_minutes
+                : null,
+              custom_margin_minutes: customMarginEnabled
+                ? form.values.custom_margin_minutes
+                : null,
+              start_time: form.values.start_time
+                ? new Date(dayjs(form.values.start_time).valueOf()).toISOString()
+                : null,
             };
             await updateMatch(tournamentData.id, match.id, updatedMatch);
             await swrStagesResponse.mutate();

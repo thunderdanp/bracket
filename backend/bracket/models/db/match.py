@@ -110,6 +110,7 @@ class MatchBody(BaseModelORM):
     official_id: OfficialId | None = None
     custom_duration_minutes: int | None = None
     custom_margin_minutes: int | None = None
+    start_time: datetime_utc | None = None
 
 
 class MatchCreateBodyFrontend(BaseModelORM):

@@ -97,7 +97,8 @@ async def sql_update_match(match_id: MatchId, match: MatchBody, tournament: Tour
             custom_duration_minutes = :custom_duration_minutes,
             custom_margin_minutes = :custom_margin_minutes,
             duration_minutes = :duration_minutes,
-            margin_minutes = :margin_minutes
+            margin_minutes = :margin_minutes,
+            start_time = :start_time
         WHERE matches.id = :match_id
         RETURNING *
         """
@@ -119,6 +120,9 @@ async def sql_update_match(match_id: MatchId, match: MatchBody, tournament: Tour
             **match.model_dump(),
             "duration_minutes": duration_minutes,
             "margin_minutes": margin_minutes,
+            "start_time": datetime.fromisoformat(match.start_time.isoformat())
+            if match.start_time
+            else None,
         },
     )
 
