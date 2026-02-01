@@ -27,19 +27,30 @@ function ScheduleRow({
   tournamentData: { id: number };
 }) {
   const { t } = useTranslation();
+  const pendingColor = '#888888';
   const winColor = '#2a8f37';
   const drawColor = '#656565';
   const loseColor = '#af4034';
-  const team1_color =
-    data.match.stage_item_input1_score > data.match.stage_item_input2_score
+
+  const hasPendingScores = data.match.pending_score1 != null && data.match.pending_score2 != null;
+  const scoresNotCommitted = data.match.stage_item_input1_score === 0 && data.match.stage_item_input2_score === 0;
+  const showPending = hasPendingScores && scoresNotCommitted;
+
+  const displayScore1 = showPending ? data.match.pending_score1 : data.match.stage_item_input1_score;
+  const displayScore2 = showPending ? data.match.pending_score2 : data.match.stage_item_input2_score;
+
+  const team1_color = showPending
+    ? pendingColor
+    : displayScore1 > displayScore2
       ? winColor
-      : data.match.stage_item_input1_score === data.match.stage_item_input2_score
+      : displayScore1 === displayScore2
         ? drawColor
         : loseColor;
-  const team2_color =
-    data.match.stage_item_input2_score > data.match.stage_item_input1_score
+  const team2_color = showPending
+    ? pendingColor
+    : displayScore2 > displayScore1
       ? winColor
-      : data.match.stage_item_input1_score === data.match.stage_item_input2_score
+      : displayScore1 === displayScore2
         ? drawColor
         : loseColor;
 
@@ -100,7 +111,7 @@ function ScheduleRow({
                 fontWeight: 800,
               }}
             >
-              <Center>{data.match.stage_item_input1_score}</Center>
+              <Center>{displayScore1}</Center>
             </div>
           </Grid.Col>
         </Grid>
@@ -129,7 +140,7 @@ function ScheduleRow({
                 fontWeight: 800,
               }}
             >
-              <Center>{data.match.stage_item_input2_score}</Center>
+              <Center>{displayScore2}</Center>
             </div>
           </Grid.Col>
         </Grid>

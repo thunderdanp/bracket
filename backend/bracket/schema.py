@@ -167,6 +167,8 @@ matches = Table(
     Column("official_id", BigInteger, ForeignKey("officials.id"), nullable=True),
     Column("stage_item_input1_score", Integer, nullable=False),
     Column("stage_item_input2_score", Integer, nullable=False),
+    Column("pending_score1", Integer, nullable=True),
+    Column("pending_score2", Integer, nullable=True),
     Column("position_in_schedule", Integer, nullable=True),
 )
 

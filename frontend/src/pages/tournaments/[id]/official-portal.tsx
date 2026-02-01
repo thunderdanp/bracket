@@ -85,6 +85,22 @@ function MatchScoreCard({
     }
   }, [match.stage_item_input1_score, match.stage_item_input2_score, submitting]);
 
+  useEffect(() => {
+    if (scoreSubmitted) return;
+    if (score1 === match.stage_item_input1_score && score2 === match.stage_item_input2_score) return;
+
+    const timer = setTimeout(() => {
+      createPortalAxios()
+        .put(`official_portal/matches/${match.id}/pending_score?access_code=${accessCode}`, {
+          pending_score1: score1,
+          pending_score2: score2,
+        })
+        .catch(() => {});
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [score1, score2, scoreSubmitted, match.id, accessCode]);
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
       <Group justify="space-between" mb="xs">

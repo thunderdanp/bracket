@@ -22,6 +22,8 @@ class MatchBaseInsertable(BaseModelORM):
     round_id: RoundId
     stage_item_input1_score: int
     stage_item_input2_score: int
+    pending_score1: int | None = None
+    pending_score2: int | None = None
     court_id: CourtId | None = None
     official_id: OfficialId | None = None
     stage_item_input1_conflict: bool

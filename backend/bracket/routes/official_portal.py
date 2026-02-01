@@ -49,6 +49,11 @@ class PortalScoreBody(BaseModel):
     stage_item_input2_score: int
 
 
+class PortalPendingScoreBody(BaseModel):
+    pending_score1: int
+    pending_score2: int
+
+
 async def _get_official_or_raise(access_code: str) -> Official:
     official = await get_official_by_access_code(access_code)
     if official is None:
@@ -133,7 +138,9 @@ async def portal_submit_score(
     update_query = """
         UPDATE matches
         SET stage_item_input1_score = :score1,
-            stage_item_input2_score = :score2
+            stage_item_input2_score = :score2,
+            pending_score1 = NULL,
+            pending_score2 = NULL
         WHERE id = :match_id
         """
     await database.execute(
@@ -154,5 +161,46 @@ async def portal_submit_score(
         await update_inputs_in_subsequent_elimination_rounds(round_.id, stage_item, {match_id})
         stages = await get_full_tournament_details(official.tournament_id)
         await schedule_all_unscheduled_matches(official.tournament_id, stages)
+
+    return {"success": True}
+
+
+@router.put("/official_portal/matches/{match_id}/pending_score")
+async def portal_update_pending_score(
+    match_id: MatchId,
+    body: PortalPendingScoreBody,
+    access_code: str,
+) -> dict[str, bool]:
+    official = await _get_official_or_raise(access_code)
+
+    check_query = """
+        SELECT official_id FROM matches WHERE id = :match_id
+        """
+    result = await database.fetch_one(query=check_query, values={"match_id": match_id})
+    if result is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Match not found",
+        )
+    if dict(result._mapping)["official_id"] != official.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This match is not assigned to you",
+        )
+
+    update_query = """
+        UPDATE matches
+        SET pending_score1 = :s1,
+            pending_score2 = :s2
+        WHERE id = :match_id
+        """
+    await database.execute(
+        query=update_query,
+        values={
+            "match_id": match_id,
+            "s1": body.pending_score1,
+            "s2": body.pending_score2,
+        },
+    )
 
     return {"success": True}
