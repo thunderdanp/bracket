@@ -55,6 +55,11 @@ export type BodyUploadLogoTournamentsTournamentIdLogoPost = {
 };
 
 /**
+ * BracketPosition
+ */
+export type BracketPosition = 'WINNERS' | 'LOSERS' | 'GRAND_FINALS' | 'NONE';
+
+/**
  * Club
  */
 export type Club = {
@@ -258,6 +263,18 @@ export type Match = {
    */
   margin_minutes: number;
   /**
+   * Official Id
+   */
+  official_id: number | null;
+  /**
+   * Pending Score1
+   */
+  pending_score1: number | null;
+  /**
+   * Pending Score2
+   */
+  pending_score2: number | null;
+  /**
    * Position In Schedule
    */
   position_in_schedule: number | null;
@@ -278,6 +295,10 @@ export type Match = {
    */
   stage_item_input1_id: number | null;
   /**
+   * Stage Item Input1 Loser From Match Id
+   */
+  stage_item_input1_loser_from_match_id: number | null;
+  /**
    * Stage Item Input1 Score
    */
   stage_item_input1_score: number;
@@ -297,6 +318,10 @@ export type Match = {
    * Stage Item Input2 Id
    */
   stage_item_input2_id: number | null;
+  /**
+   * Stage Item Input2 Loser From Match Id
+   */
+  stage_item_input2_loser_from_match_id: number | null;
   /**
    * Stage Item Input2 Score
    */
@@ -343,6 +368,10 @@ export type MatchBody = {
    * Stage Item Input2 Score
    */
   stage_item_input2_score: number;
+  /**
+   * Start Time
+   */
+  start_time: string | null;
 };
 
 /**
@@ -362,6 +391,10 @@ export type MatchCreateBodyFrontend = {
    */
   stage_item_input1_id: number | null;
   /**
+   * Stage Item Input1 Loser From Match Id
+   */
+  stage_item_input1_loser_from_match_id: number | null;
+  /**
    * Stage Item Input1 Winner From Match Id
    */
   stage_item_input1_winner_from_match_id: number | null;
@@ -369,6 +402,10 @@ export type MatchCreateBodyFrontend = {
    * Stage Item Input2 Id
    */
   stage_item_input2_id: number | null;
+  /**
+   * Stage Item Input2 Loser From Match Id
+   */
+  stage_item_input2_loser_from_match_id: number | null;
   /**
    * Stage Item Input2 Winner From Match Id
    */
@@ -395,32 +432,6 @@ export type MatchRescheduleBody = {
    * Old Position
    */
   old_position: number;
-};
-
-/**
- * Official
- */
-export type Official = {
-  /**
-   * Access Code
-   */
-  access_code: string;
-  /**
-   * Created
-   */
-  created: string;
-  /**
-   * Id
-   */
-  id: number;
-  /**
-   * Name
-   */
-  name: string;
-  /**
-   * Tournament Id
-   */
-  tournament_id: number;
 };
 
 /**
@@ -464,6 +475,14 @@ export type MatchWithDetails = {
    */
   official_id: number | null;
   /**
+   * Pending Score1
+   */
+  pending_score1: number | null;
+  /**
+   * Pending Score2
+   */
+  pending_score2: number | null;
+  /**
    * Position In Schedule
    */
   position_in_schedule: number | null;
@@ -484,6 +503,10 @@ export type MatchWithDetails = {
    */
   stage_item_input1_id: number | null;
   /**
+   * Stage Item Input1 Loser From Match Id
+   */
+  stage_item_input1_loser_from_match_id: number | null;
+  /**
    * Stage Item Input1 Score
    */
   stage_item_input1_score: number;
@@ -503,6 +526,10 @@ export type MatchWithDetails = {
    * Stage Item Input2 Id
    */
   stage_item_input2_id: number | null;
+  /**
+   * Stage Item Input2 Loser From Match Id
+   */
+  stage_item_input2_loser_from_match_id: number | null;
   /**
    * Stage Item Input2 Score
    */
@@ -556,6 +583,14 @@ export type MatchWithDetailsDefinitive = {
    */
   official_id: number | null;
   /**
+   * Pending Score1
+   */
+  pending_score1: number | null;
+  /**
+   * Pending Score2
+   */
+  pending_score2: number | null;
+  /**
    * Position In Schedule
    */
   position_in_schedule: number | null;
@@ -575,6 +610,10 @@ export type MatchWithDetailsDefinitive = {
    * Stage Item Input1 Id
    */
   stage_item_input1_id: number | null;
+  /**
+   * Stage Item Input1 Loser From Match Id
+   */
+  stage_item_input1_loser_from_match_id: number | null;
   /**
    * Stage Item Input1 Score
    */
@@ -596,6 +635,10 @@ export type MatchWithDetailsDefinitive = {
    */
   stage_item_input2_id: number | null;
   /**
+   * Stage Item Input2 Loser From Match Id
+   */
+  stage_item_input2_loser_from_match_id: number | null;
+  /**
    * Stage Item Input2 Score
    */
   stage_item_input2_score: number;
@@ -607,6 +650,52 @@ export type MatchWithDetailsDefinitive = {
    * Start Time
    */
   start_time: string | null;
+};
+
+/**
+ * Official
+ */
+export type Official = {
+  /**
+   * Access Code
+   */
+  access_code: string;
+  /**
+   * Created
+   */
+  created: string;
+  /**
+   * Id
+   */
+  id: number;
+  /**
+   * Name
+   */
+  name: string;
+  /**
+   * Tournament Id
+   */
+  tournament_id: number;
+};
+
+/**
+ * OfficialBody
+ */
+export type OfficialBody = {
+  /**
+   * Name
+   */
+  name: string;
+};
+
+/**
+ * OfficialsResponse
+ */
+export type OfficialsResponse = {
+  /**
+   * Data
+   */
+  data: Array<Official>;
 };
 
 /**
@@ -716,6 +805,103 @@ export type PlayerMultiBody = {
  */
 export type PlayersResponse = {
   data: PaginatedPlayers;
+};
+
+/**
+ * PortalLoginBody
+ */
+export type PortalLoginBody = {
+  /**
+   * Access Code
+   */
+  access_code: string;
+};
+
+/**
+ * PortalLoginResponse
+ */
+export type PortalLoginResponse = {
+  official: Official;
+  /**
+   * Tournament Id
+   */
+  tournament_id: number;
+};
+
+/**
+ * PortalMatch
+ */
+export type PortalMatch = {
+  /**
+   * Court Name
+   */
+  court_name: string | null;
+  /**
+   * Id
+   */
+  id: number;
+  /**
+   * Position In Schedule
+   */
+  position_in_schedule: number | null;
+  /**
+   * Stage Item Input1 Score
+   */
+  stage_item_input1_score: number;
+  /**
+   * Stage Item Input2 Score
+   */
+  stage_item_input2_score: number;
+  /**
+   * Start Time
+   */
+  start_time: string | null;
+  /**
+   * Team1 Name
+   */
+  team1_name: string | null;
+  /**
+   * Team2 Name
+   */
+  team2_name: string | null;
+};
+
+/**
+ * PortalMatchesResponse
+ */
+export type PortalMatchesResponse = {
+  /**
+   * Data
+   */
+  data: Array<PortalMatch>;
+};
+
+/**
+ * PortalPendingScoreBody
+ */
+export type PortalPendingScoreBody = {
+  /**
+   * Pending Score1
+   */
+  pending_score1: number;
+  /**
+   * Pending Score2
+   */
+  pending_score2: number;
+};
+
+/**
+ * PortalScoreBody
+ */
+export type PortalScoreBody = {
+  /**
+   * Stage Item Input1 Score
+   */
+  stage_item_input1_score: number;
+  /**
+   * Stage Item Input2 Score
+   */
+  stage_item_input2_score: number;
 };
 
 /**
@@ -846,6 +1032,7 @@ export type RoundUpdateBody = {
  * RoundWithMatches
  */
 export type RoundWithMatches = {
+  bracket_position: BracketPosition;
   /**
    * Created
    */
@@ -887,6 +1074,13 @@ export type SingleMatchResponse = {
 };
 
 /**
+ * SingleOfficialResponse
+ */
+export type SingleOfficialResponse = {
+  data: Official;
+};
+
+/**
  * SinglePlayerResponse
  */
 export type SinglePlayerResponse = {
@@ -898,6 +1092,13 @@ export type SinglePlayerResponse = {
  */
 export type SingleTeamResponse = {
   data: Team;
+};
+
+/**
+ * SingleTournamentBreakResponse
+ */
+export type SingleTournamentBreakResponse = {
+  data: TournamentBreak;
 };
 
 /**
@@ -1260,7 +1461,7 @@ export type StageRankingResponse = {
 /**
  * StageType
  */
-export type StageType = 'ROUND_ROBIN' | 'SINGLE_ELIMINATION' | 'SWISS';
+export type StageType = 'ROUND_ROBIN' | 'SINGLE_ELIMINATION' | 'DOUBLE_ELIMINATION' | 'SWISS';
 
 /**
  * StageUpdateBody
@@ -1576,6 +1777,64 @@ export type TournamentBody = {
 };
 
 /**
+ * TournamentBreak
+ */
+export type TournamentBreak = {
+  /**
+   * Created
+   */
+  created: string;
+  /**
+   * End Time
+   */
+  end_time: string;
+  /**
+   * Id
+   */
+  id: number;
+  /**
+   * Start Time
+   */
+  start_time: string;
+  /**
+   * Title
+   */
+  title: string;
+  /**
+   * Tournament Id
+   */
+  tournament_id: number;
+};
+
+/**
+ * TournamentBreakBody
+ */
+export type TournamentBreakBody = {
+  /**
+   * End Time
+   */
+  end_time: string;
+  /**
+   * Start Time
+   */
+  start_time: string;
+  /**
+   * Title
+   */
+  title: string;
+};
+
+/**
+ * TournamentBreaksResponse
+ */
+export type TournamentBreaksResponse = {
+  /**
+   * Data
+   */
+  data: Array<TournamentBreak>;
+};
+
+/**
  * TournamentChangeStatusBody
  */
 export type TournamentChangeStatusBody = {
@@ -1879,6 +2138,147 @@ export type GetMetricsMetricsGetResponses = {
 export type GetMetricsMetricsGetResponse =
   GetMetricsMetricsGetResponses[keyof GetMetricsMetricsGetResponses];
 
+export type PortalLoginOfficialPortalLoginPostData = {
+  body: PortalLoginBody;
+  path?: never;
+  query?: never;
+  url: '/official_portal/login';
+};
+
+export type PortalLoginOfficialPortalLoginPostErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type PortalLoginOfficialPortalLoginPostError =
+  PortalLoginOfficialPortalLoginPostErrors[keyof PortalLoginOfficialPortalLoginPostErrors];
+
+export type PortalLoginOfficialPortalLoginPostResponses = {
+  /**
+   * Successful Response
+   */
+  200: PortalLoginResponse;
+};
+
+export type PortalLoginOfficialPortalLoginPostResponse =
+  PortalLoginOfficialPortalLoginPostResponses[keyof PortalLoginOfficialPortalLoginPostResponses];
+
+export type PortalGetMatchesOfficialPortalMatchesGetData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Access Code
+     */
+    access_code: string;
+  };
+  url: '/official_portal/matches';
+};
+
+export type PortalGetMatchesOfficialPortalMatchesGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type PortalGetMatchesOfficialPortalMatchesGetError =
+  PortalGetMatchesOfficialPortalMatchesGetErrors[keyof PortalGetMatchesOfficialPortalMatchesGetErrors];
+
+export type PortalGetMatchesOfficialPortalMatchesGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: PortalMatchesResponse;
+};
+
+export type PortalGetMatchesOfficialPortalMatchesGetResponse =
+  PortalGetMatchesOfficialPortalMatchesGetResponses[keyof PortalGetMatchesOfficialPortalMatchesGetResponses];
+
+export type PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutData = {
+  body: PortalPendingScoreBody;
+  path: {
+    /**
+     * Match Id
+     */
+    match_id: number;
+  };
+  query: {
+    /**
+     * Access Code
+     */
+    access_code: string;
+  };
+  url: '/official_portal/matches/{match_id}/pending_score';
+};
+
+export type PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutError =
+  PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutErrors[keyof PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutErrors];
+
+export type PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutResponses = {
+  /**
+   * Response Portal Update Pending Score Official Portal Matches  Match Id  Pending Score Put
+   *
+   * Successful Response
+   */
+  200: {
+    [key: string]: boolean;
+  };
+};
+
+export type PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutResponse =
+  PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutResponses[keyof PortalUpdatePendingScoreOfficialPortalMatchesMatchIdPendingScorePutResponses];
+
+export type PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutData = {
+  body: PortalScoreBody;
+  path: {
+    /**
+     * Match Id
+     */
+    match_id: number;
+  };
+  query: {
+    /**
+     * Access Code
+     */
+    access_code: string;
+  };
+  url: '/official_portal/matches/{match_id}/score';
+};
+
+export type PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutError =
+  PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutErrors[keyof PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutErrors];
+
+export type PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutResponses = {
+  /**
+   * Response Portal Submit Score Official Portal Matches  Match Id  Score Put
+   *
+   * Successful Response
+   */
+  200: {
+    [key: string]: boolean;
+  };
+};
+
+export type PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutResponse =
+  PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutResponses[keyof PortalSubmitScoreOfficialPortalMatchesMatchIdScorePutResponses];
+
 export type PingPingGetData = {
   body?: never;
   path?: never;
@@ -2115,6 +2515,142 @@ export type GetAvailableInputsTournamentsTournamentIdAvailableInputsGetResponses
 export type GetAvailableInputsTournamentsTournamentIdAvailableInputsGetResponse =
   GetAvailableInputsTournamentsTournamentIdAvailableInputsGetResponses[keyof GetAvailableInputsTournamentsTournamentIdAvailableInputsGetResponses];
 
+export type GetBreaksTournamentsTournamentIdBreaksGetData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/breaks';
+};
+
+export type GetBreaksTournamentsTournamentIdBreaksGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetBreaksTournamentsTournamentIdBreaksGetError =
+  GetBreaksTournamentsTournamentIdBreaksGetErrors[keyof GetBreaksTournamentsTournamentIdBreaksGetErrors];
+
+export type GetBreaksTournamentsTournamentIdBreaksGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: TournamentBreaksResponse;
+};
+
+export type GetBreaksTournamentsTournamentIdBreaksGetResponse =
+  GetBreaksTournamentsTournamentIdBreaksGetResponses[keyof GetBreaksTournamentsTournamentIdBreaksGetResponses];
+
+export type CreateBreakTournamentsTournamentIdBreaksPostData = {
+  body: TournamentBreakBody;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/breaks';
+};
+
+export type CreateBreakTournamentsTournamentIdBreaksPostErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type CreateBreakTournamentsTournamentIdBreaksPostError =
+  CreateBreakTournamentsTournamentIdBreaksPostErrors[keyof CreateBreakTournamentsTournamentIdBreaksPostErrors];
+
+export type CreateBreakTournamentsTournamentIdBreaksPostResponses = {
+  /**
+   * Successful Response
+   */
+  200: SingleTournamentBreakResponse;
+};
+
+export type CreateBreakTournamentsTournamentIdBreaksPostResponse =
+  CreateBreakTournamentsTournamentIdBreaksPostResponses[keyof CreateBreakTournamentsTournamentIdBreaksPostResponses];
+
+export type DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+    /**
+     * Break Id
+     */
+    break_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/breaks/{break_id}';
+};
+
+export type DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteError =
+  DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteErrors[keyof DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteErrors];
+
+export type DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteResponses = {
+  /**
+   * Successful Response
+   */
+  200: SuccessResponse;
+};
+
+export type DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteResponse =
+  DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteResponses[keyof DeleteBreakTournamentsTournamentIdBreaksBreakIdDeleteResponses];
+
+export type UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutData = {
+  body: TournamentBreakBody;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+    /**
+     * Break Id
+     */
+    break_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/breaks/{break_id}';
+};
+
+export type UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutError =
+  UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutErrors[keyof UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutErrors];
+
+export type UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutResponses = {
+  /**
+   * Successful Response
+   */
+  200: SingleTournamentBreakResponse;
+};
+
+export type UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutResponse =
+  UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutResponses[keyof UpdateBreakByIdTournamentsTournamentIdBreaksBreakIdPutResponses];
+
 export type ChangeStatusTournamentsTournamentIdChangeStatusPostData = {
   body: TournamentChangeStatusBody;
   path: {
@@ -2146,6 +2682,38 @@ export type ChangeStatusTournamentsTournamentIdChangeStatusPostResponses = {
 
 export type ChangeStatusTournamentsTournamentIdChangeStatusPostResponse =
   ChangeStatusTournamentsTournamentIdChangeStatusPostResponses[keyof ChangeStatusTournamentsTournamentIdChangeStatusPostResponses];
+
+export type ClearScheduleTournamentsTournamentIdClearSchedulePostData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/clear_schedule';
+};
+
+export type ClearScheduleTournamentsTournamentIdClearSchedulePostErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type ClearScheduleTournamentsTournamentIdClearSchedulePostError =
+  ClearScheduleTournamentsTournamentIdClearSchedulePostErrors[keyof ClearScheduleTournamentsTournamentIdClearSchedulePostErrors];
+
+export type ClearScheduleTournamentsTournamentIdClearSchedulePostResponses = {
+  /**
+   * Successful Response
+   */
+  200: SuccessResponse;
+};
+
+export type ClearScheduleTournamentsTournamentIdClearSchedulePostResponse =
+  ClearScheduleTournamentsTournamentIdClearSchedulePostResponses[keyof ClearScheduleTournamentsTournamentIdClearSchedulePostResponses];
 
 export type GetCourtsTournamentsTournamentIdCourtsGetData = {
   body?: never;
@@ -2282,6 +2850,35 @@ export type UpdateCourtByIdTournamentsTournamentIdCourtsCourtIdPutResponses = {
 
 export type UpdateCourtByIdTournamentsTournamentIdCourtsCourtIdPutResponse =
   UpdateCourtByIdTournamentsTournamentIdCourtsCourtIdPutResponses[keyof UpdateCourtByIdTournamentsTournamentIdCourtsCourtIdPutResponses];
+
+export type GetTournamentLogoTournamentsTournamentIdLogoGetData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/logo';
+};
+
+export type GetTournamentLogoTournamentsTournamentIdLogoGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetTournamentLogoTournamentsTournamentIdLogoGetError =
+  GetTournamentLogoTournamentsTournamentIdLogoGetErrors[keyof GetTournamentLogoTournamentsTournamentIdLogoGetErrors];
+
+export type GetTournamentLogoTournamentsTournamentIdLogoGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: unknown;
+};
 
 export type UploadLogoTournamentsTournamentIdLogoPostData = {
   body?: BodyUploadLogoTournamentsTournamentIdLogoPost;
@@ -2486,6 +3083,207 @@ export type GetNextStageRankingsTournamentsTournamentIdNextStageRankingsGetRespo
 
 export type GetNextStageRankingsTournamentsTournamentIdNextStageRankingsGetResponse =
   GetNextStageRankingsTournamentsTournamentIdNextStageRankingsGetResponses[keyof GetNextStageRankingsTournamentsTournamentIdNextStageRankingsGetResponses];
+
+export type GetOfficialsTournamentsTournamentIdOfficialsGetData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/officials';
+};
+
+export type GetOfficialsTournamentsTournamentIdOfficialsGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetOfficialsTournamentsTournamentIdOfficialsGetError =
+  GetOfficialsTournamentsTournamentIdOfficialsGetErrors[keyof GetOfficialsTournamentsTournamentIdOfficialsGetErrors];
+
+export type GetOfficialsTournamentsTournamentIdOfficialsGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: OfficialsResponse;
+};
+
+export type GetOfficialsTournamentsTournamentIdOfficialsGetResponse =
+  GetOfficialsTournamentsTournamentIdOfficialsGetResponses[keyof GetOfficialsTournamentsTournamentIdOfficialsGetResponses];
+
+export type CreateOfficialTournamentsTournamentIdOfficialsPostData = {
+  body: OfficialBody;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/officials';
+};
+
+export type CreateOfficialTournamentsTournamentIdOfficialsPostErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type CreateOfficialTournamentsTournamentIdOfficialsPostError =
+  CreateOfficialTournamentsTournamentIdOfficialsPostErrors[keyof CreateOfficialTournamentsTournamentIdOfficialsPostErrors];
+
+export type CreateOfficialTournamentsTournamentIdOfficialsPostResponses = {
+  /**
+   * Successful Response
+   */
+  200: SingleOfficialResponse;
+};
+
+export type CreateOfficialTournamentsTournamentIdOfficialsPostResponse =
+  CreateOfficialTournamentsTournamentIdOfficialsPostResponses[keyof CreateOfficialTournamentsTournamentIdOfficialsPostResponses];
+
+export type AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/officials/auto_assign';
+};
+
+export type AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostError =
+  AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostErrors[keyof AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostErrors];
+
+export type AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostResponses = {
+  /**
+   * Successful Response
+   */
+  200: SuccessResponse;
+};
+
+export type AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostResponse =
+  AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostResponses[keyof AutoAssignOfficialsTournamentsTournamentIdOfficialsAutoAssignPostResponses];
+
+export type ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/officials/clear_assignments';
+};
+
+export type ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostError =
+  ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostErrors[keyof ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostErrors];
+
+export type ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostResponses =
+  {
+    /**
+     * Successful Response
+     */
+    200: SuccessResponse;
+  };
+
+export type ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostResponse =
+  ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostResponses[keyof ClearOfficialAssignmentsTournamentsTournamentIdOfficialsClearAssignmentsPostResponses];
+
+export type DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+    /**
+     * Official Id
+     */
+    official_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/officials/{official_id}';
+};
+
+export type DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteError =
+  DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteErrors[keyof DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteErrors];
+
+export type DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteResponses = {
+  /**
+   * Successful Response
+   */
+  200: SuccessResponse;
+};
+
+export type DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteResponse =
+  DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteResponses[keyof DeleteOfficialTournamentsTournamentIdOfficialsOfficialIdDeleteResponses];
+
+export type UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutData = {
+  body: OfficialBody;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+    /**
+     * Official Id
+     */
+    official_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/officials/{official_id}';
+};
+
+export type UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutError =
+  UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutErrors[keyof UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutErrors];
+
+export type UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutResponses = {
+  /**
+   * Successful Response
+   */
+  200: SingleOfficialResponse;
+};
+
+export type UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutResponse =
+  UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutResponses[keyof UpdateOfficialByIdTournamentsTournamentIdOfficialsOfficialIdPutResponses];
 
 export type GetPlayersTournamentsTournamentIdPlayersGetData = {
   body?: never;
@@ -3556,6 +4354,39 @@ export type UpdateTeamByIdTournamentsTournamentIdTeamsTeamIdPutResponses = {
 
 export type UpdateTeamByIdTournamentsTournamentIdTeamsTeamIdPutResponse =
   UpdateTeamByIdTournamentsTournamentIdTeamsTeamIdPutResponses[keyof UpdateTeamByIdTournamentsTournamentIdTeamsTeamIdPutResponses];
+
+export type GetTeamLogoTournamentsTournamentIdTeamsTeamIdLogoGetData = {
+  body?: never;
+  path: {
+    /**
+     * Tournament Id
+     */
+    tournament_id: number;
+    /**
+     * Team Id
+     */
+    team_id: number;
+  };
+  query?: never;
+  url: '/tournaments/{tournament_id}/teams/{team_id}/logo';
+};
+
+export type GetTeamLogoTournamentsTournamentIdTeamsTeamIdLogoGetErrors = {
+  /**
+   * Validation Error
+   */
+  422: HttpValidationError;
+};
+
+export type GetTeamLogoTournamentsTournamentIdTeamsTeamIdLogoGetError =
+  GetTeamLogoTournamentsTournamentIdTeamsTeamIdLogoGetErrors[keyof GetTeamLogoTournamentsTournamentIdTeamsTeamIdLogoGetErrors];
+
+export type GetTeamLogoTournamentsTournamentIdTeamsTeamIdLogoGetResponses = {
+  /**
+   * Successful Response
+   */
+  200: unknown;
+};
 
 export type UpdateTeamLogoTournamentsTournamentIdTeamsTeamIdLogoPostData = {
   body?: BodyUpdateTeamLogoTournamentsTournamentIdTeamsTeamIdLogoPost;

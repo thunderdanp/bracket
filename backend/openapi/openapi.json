@@ -434,6 +434,28 @@
             ],
             "title": "Official Id"
           },
+          "pending_score1": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Score1"
+          },
+          "pending_score2": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Score2"
+          },
           "position_in_schedule": {
             "anyOf": [
               {
@@ -589,6 +611,8 @@
           "round_id",
           "stage_item_input1_score",
           "stage_item_input2_score",
+          "pending_score1",
+          "pending_score2",
           "court_id",
           "official_id",
           "stage_item_input1_conflict",
@@ -665,6 +689,18 @@
             "default": 0,
             "title": "Stage Item Input2 Score",
             "type": "integer"
+          },
+          "start_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Time"
           }
         },
         "required": [
@@ -674,7 +710,8 @@
           "court_id",
           "official_id",
           "custom_duration_minutes",
-          "custom_margin_minutes"
+          "custom_margin_minutes",
+          "start_time"
         ],
         "title": "MatchBody",
         "type": "object"
@@ -888,6 +925,28 @@
             ],
             "title": "Official Id"
           },
+          "pending_score1": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Score1"
+          },
+          "pending_score2": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Score2"
+          },
           "position_in_schedule": {
             "anyOf": [
               {
@@ -1043,6 +1102,8 @@
           "round_id",
           "stage_item_input1_score",
           "stage_item_input2_score",
+          "pending_score1",
+          "pending_score2",
           "court_id",
           "official_id",
           "stage_item_input1_conflict",
@@ -1145,6 +1206,28 @@
             ],
             "title": "Official Id"
           },
+          "pending_score1": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Score1"
+          },
+          "pending_score2": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Score2"
+          },
           "position_in_schedule": {
             "anyOf": [
               {
@@ -1294,6 +1377,8 @@
           "round_id",
           "stage_item_input1_score",
           "stage_item_input2_score",
+          "pending_score1",
+          "pending_score2",
           "court_id",
           "official_id",
           "stage_item_input1_conflict",
@@ -1662,6 +1747,24 @@
           "data"
         ],
         "title": "PortalMatchesResponse",
+        "type": "object"
+      },
+      "PortalPendingScoreBody": {
+        "properties": {
+          "pending_score1": {
+            "title": "Pending Score1",
+            "type": "integer"
+          },
+          "pending_score2": {
+            "title": "Pending Score2",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "pending_score1",
+          "pending_score2"
+        ],
+        "title": "PortalPendingScoreBody",
         "type": "object"
       },
       "PortalScoreBody": {
@@ -2984,6 +3087,11 @@
             "title": "Dashboard Public",
             "type": "boolean"
           },
+          "dashboard_show_standings": {
+            "default": true,
+            "title": "Dashboard Show Standings",
+            "type": "boolean"
+          },
           "duration_minutes": {
             "minimum": 1.0,
             "title": "Duration Minutes",
@@ -3035,6 +3143,7 @@
           "duration_minutes",
           "margin_minutes",
           "dashboard_public",
+          "dashboard_show_standings",
           "dashboard_endpoint",
           "logo_path",
           "players_can_be_in_multiple_teams",
@@ -3068,6 +3177,11 @@
             "title": "Dashboard Public",
             "type": "boolean"
           },
+          "dashboard_show_standings": {
+            "default": true,
+            "title": "Dashboard Show Standings",
+            "type": "boolean"
+          },
           "duration_minutes": {
             "minimum": 1.0,
             "title": "Duration Minutes",
@@ -3096,6 +3210,7 @@
           "start_time",
           "name",
           "dashboard_public",
+          "dashboard_show_standings",
           "dashboard_endpoint",
           "players_can_be_in_multiple_teams",
           "auto_assign_courts",
@@ -3239,6 +3354,11 @@
             "title": "Dashboard Public",
             "type": "boolean"
           },
+          "dashboard_show_standings": {
+            "default": true,
+            "title": "Dashboard Show Standings",
+            "type": "boolean"
+          },
           "duration_minutes": {
             "minimum": 1.0,
             "title": "Duration Minutes",
@@ -3267,6 +3387,7 @@
           "start_time",
           "name",
           "dashboard_public",
+          "dashboard_show_standings",
           "dashboard_endpoint",
           "players_can_be_in_multiple_teams",
           "auto_assign_courts",
@@ -3751,6 +3872,71 @@
           }
         },
         "summary": "Portal Get Matches",
+        "tags": [
+          "Official Portal"
+        ]
+      }
+    },
+    "/official_portal/matches/{match_id}/pending_score": {
+      "put": {
+        "operationId": "portal_update_pending_score_official_portal_matches__match_id__pending_score_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "match_id",
+            "required": true,
+            "schema": {
+              "title": "Match Id",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "access_code",
+            "required": true,
+            "schema": {
+              "title": "Access Code",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortalPendingScoreBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "boolean"
+                  },
+                  "title": "Response Portal Update Pending Score Official Portal Matches  Match Id  Pending Score Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Portal Update Pending Score",
         "tags": [
           "Official Portal"
         ]
