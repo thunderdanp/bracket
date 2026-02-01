@@ -26,7 +26,7 @@ import { Translator } from '@components/utils/types';
 import { getTournamentIdFromRouter, responseIsValid } from '@components/utils/util';
 import { MatchWithDetails } from '@openapi';
 import TournamentLayout from '@pages/tournaments/_tournament_layout';
-import { getBaseApiUrl, getCourts, getStages, getTeamLogoUrl } from '@services/adapter';
+import { getBaseApiUrl, getCourtsLive, getStagesLive, getTeamLogoUrl } from '@services/adapter';
 import { getMatchLookup, getStageItemLookup, stringToColour } from '@services/lookups';
 
 function ScheduleRow({
@@ -269,8 +269,8 @@ export default function ResultsPage() {
 
   const { t } = useTranslation();
   const { tournamentData } = getTournamentIdFromRouter();
-  const swrStagesResponse = getStages(tournamentData.id);
-  const swrCourtsResponse = getCourts(tournamentData.id);
+  const swrStagesResponse = getStagesLive(tournamentData.id);
+  const swrCourtsResponse = getCourtsLive(tournamentData.id);
 
   const stageItemsLookup = responseIsValid(swrStagesResponse)
     ? getStageItemLookup(swrStagesResponse)
