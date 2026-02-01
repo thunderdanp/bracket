@@ -1,6 +1,6 @@
 import { Alert, Anchor, Button, Card, Container, Group, NumberInput, SimpleGrid, Text, TextInput, Title } from '@mantine/core';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
@@ -85,21 +85,34 @@ function MatchScoreCard({
     }
   }, [match.stage_item_input1_score, match.stage_item_input2_score, submitting]);
 
-  useEffect(() => {
-    if (scoreSubmitted) return;
-    if (score1 === match.stage_item_input1_score && score2 === match.stage_item_input2_score) return;
+  const pendingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const timer = setTimeout(() => {
-      createPortalAxios()
-        .put(`official_portal/matches/${match.id}/pending_score?access_code=${accessCode}`, {
-          pending_score1: score1,
-          pending_score2: score2,
-        })
-        .catch(() => {});
-    }, 500);
+  const sendPendingScores = useCallback(
+    (s1: number, s2: number) => {
+      if (pendingTimerRef.current != null) clearTimeout(pendingTimerRef.current);
+      pendingTimerRef.current = setTimeout(() => {
+        createPortalAxios()
+          .put(`official_portal/matches/${match.id}/pending_score?access_code=${accessCode}`, {
+            pending_score1: s1,
+            pending_score2: s2,
+          })
+          .catch(() => {});
+      }, 500);
+    },
+    [match.id, accessCode]
+  );
 
-    return () => clearTimeout(timer);
-  }, [score1, score2, scoreSubmitted, match.id, accessCode]);
+  function handleScore1Change(val: number | string) {
+    const newScore = Number(val) || 0;
+    setScore1(newScore);
+    if (!scoreSubmitted) sendPendingScores(newScore, score2);
+  }
+
+  function handleScore2Change(val: number | string) {
+    const newScore = Number(val) || 0;
+    setScore2(newScore);
+    if (!scoreSubmitted) sendPendingScores(score1, newScore);
+  }
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder mb="md">
@@ -129,7 +142,7 @@ function MatchScoreCard({
           </Text>
           <NumberInput
             value={score1}
-            onChange={(val) => setScore1(Number(val))}
+            onChange={handleScore1Change}
             min={0}
             disabled={scoreSubmitted}
           />
@@ -140,7 +153,7 @@ function MatchScoreCard({
           </Text>
           <NumberInput
             value={score2}
-            onChange={(val) => setScore2(Number(val))}
+            onChange={handleScore2Change}
             min={0}
             disabled={scoreSubmitted}
           />
